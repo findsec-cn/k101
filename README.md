@@ -1,9 +1,9 @@
-# ubernetes 技术实践.基础篇
+# Kubernetes 技术实践(基础篇)
 
 ## 容器打包
 docker build -t ist0ne/hello:v1 .
 docker login
-docker push
+docker push ist0ne/hello:v1
 
 ## 启动一个单节点nginx服务
 kubectl run nginx --image=nginx:1.15
