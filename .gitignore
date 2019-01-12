@@ -1,0 +1,5 @@
+.DS_Store
+*.log
+*.swp
+*.pyc
+!.gitkeep
