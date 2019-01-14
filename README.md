@@ -10,7 +10,7 @@
 
 如果你对视频中讲解的知识有什么疑问，欢迎扫描下面二维码加入 QQ 群（774607973）进行提问，如果你对我们有什么建议，也欢迎加群，谢谢！
 
-![QQ群](https://github.com/ist0ne/k100/raw/master/docs/qq.jpeg =30x30)
+![QQ群](https://github.com/ist0ne/k100/raw/master/docs/qq.jpeg){:height="50%" width="50%"}
 
 ## 你会学到什么？
 
