@@ -1,84 +1,27 @@
-# Kubernetes 技术实践(基础篇)
+# 概述
 
-## 容器打包
-docker build -t ist0ne/hello:v1 .
-docker login
-docker push ist0ne/hello:v1
+随着容器及微服务概念的普及，各个公司都在都在探索如何打造生产环境可用的、高效的容器调度平台，而 Kubernetes 的出现使这种探索变得更简单。Kubernetes 是 Google 在 2014 年基于其 Borg 系统的实践经验开源的一套标准化，可扩展的容器管理平台。
 
-## 启动一个单节点nginx服务
-kubectl run nginx --image=nginx:1.15
+而发展至现在 Kubernetes 已经成为了容器编排领域事实上的标准，并且大量的公司都已在生产中使用，无论是国外的 Google、 亚马逊、 GitHub，还是国内的阿里，腾讯，京东，滴滴及其他中小公司都在进行着大量的探索与实践。
 
-## 访问Dashboard
-kubectl proxy
-http://localhost:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/overview?namespace=default
+了能够快速的发版验证功能，不再受单体化架构的拖累，微服务的概念也在实践中逐步推进，从原先的单体集中式的服务，拆分为多个松耦合的微服务。用容器部署微服务已是大势所趋，生产中大量使用容器，则容器编排变的愈发重要。Kubernetes 在容器编排领域目前已成为事实上的标准，大量公司均已在生产中推进，此时，无论是开发工程师还是运维工程师，皆需要了解并掌握 Kubernetes 的基础技能，才不至于丢失自己的竞争力。
 
-## 获取pods
-kubectl get pods
+为了让大家能够更好的掌握 Kubernetes 及其相关生态，我打算做一系列的视频课程，本套视频是这个系列的第一部分--入门篇，接下来我还会做进阶篇。在入门篇中我将一步步引导你去实践如何部署一个测试目的的Kubernetes 集群；如何将微服务部署到 Kubernetes 集群上。在接下来的进阶篇中，我将带来你进入更高级的主题，包括如何搭建生产环境使用的高可用性 Kubernetes 集群；如何搭建企业级私有仓库；如何配置持续集成与部署（CI/CD）流水线；如何为 Kubernetes 配置持久化存储；如何配置 Kubernetes 网络；如何监控 Kubernetes 集群及其部署的微服务 等等。
 
-## 启动工具容器进行访问测试
-kubectl run -ti busybox --image=busybox --restart=Never -- sh
-## 测试不能获取到服务
-wget http://nginx
+如果你对视频中讲解的知识有什么疑问，欢迎扫描下面二维码加入 QQ 群（774607973）进行提问，如果你对我们有什么建议，也欢迎加群，谢谢！
 
-## 为部署创建服务
-kubectl expose deployment nginx --port 80
+[QQ群](docs/qq.jpeg)
 
-## 获取部署列表
-kubectl get svc
+## 你会学到什么？
 
-## 启动工具容器进行访问测试
-kubectl run -ti busybox --image=busybox --restart=Never -- sh
-## 测试能获取到服务
-wget http://nginx
+- Docker 基础，包括镜像打包及运行容器
+- Kubernetes 基本概念
+- Kubernetes 基础架构
+- 从零搭建 Kubernetes 集群
+- 部署微服务到 Kubernetes 集群
 
-## 创建nginx 配置
-kubectl create configmap nginx-conf --from-file=nginx/hello.conf
+## 适宜人群
 
-## 部署flask 应用
-kubectl create -f pods/nginx-flask-app.yaml
-kubectl get pods nginx
-
-## 更新版本
-kubectl replace --force -f pods/nginx-flask-app.yaml
-
-## 访问测试
-kubectl port-forward nginx 10080:80
-curl http://127.0.0.1:10080
-
-## 查看容器日志
-kubectl logs -c nginx nginx
-kubectl logs -c hello nginx
-
-kubectl exec -ti nginx -c hello bash
-
-
-## 项目部署
-### 获取pods
-kubectl get pods
-NAME                        READY   STATUS    RESTARTS   AGE
-auth-7fd44dbc5b-klz9k       1/1     Running   0          108s
-frontend-84794db478-2wqrk   1/1     Running   0          108s
-hello-9944bc998-wgq88       1/1     Running   0          107s
-
-### 登录虚拟机
-minikube ssh
-
-## 拷贝ca.pem到虚拟机上
-
-## 访问非授权接口返回成功
-curl --cacert ./ca.pem https://127.0.0.1:30443/hello
-{"message":"Hello"}
-
-## 访问非授权接口返回失败
-curl --cacert ./ca.pem https://127.0.0.1:30443/secure
-authorization failed
-
-## 获取接口JWT Token
-curl --cacert ./ca.pem -u user https://127.0.0.1:30443/login
-Enter host password for user 'user':password
-{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJleHAiOjE1NDcyNzg4NjcsImlhdCI6MTU0NzAxOTY2NywiaXNzIjoiYXV0aC5zZXJ2aWNlIiwic3ViIjoidXNlciJ9.bT3flMe_VywoFkGCFt08Tw0fxytKZblj8lBHNVLYC6U"}
-
-## 使用Token访问接口成功返回
-curl --cacert ./ca.pem -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJleHAiOjE1NDcyNzg4NjcsImlhdCI6MTU0NzAxOTY2NywiaXNzIjoiYXV0aC5zZXJ2aWNlIiwic3ViIjoidXNlciJ9.bT3flMe_VywoFkGCFt08Tw0fxytKZblj8lBHNVLYC6U' https://127.0.0.1:30443/secure
-
-
+- 了解 Docker，希望能进入 Kubernetes 的各领域工程师
+- 正在或即将在生产环境使用 Kubernetes 的后端开发工程师
+- 需要维护在公司落地 Kubernetes 的运维工程师
