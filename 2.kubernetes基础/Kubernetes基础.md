@@ -8,7 +8,13 @@ Kubernetes(k8s)是Google开源由CNCF基金会管理的容器集群管理系统�
 
 ## 2.2 Kubernetes 架构
 
+Kubernetes 架构总的来讲分为两个平面，即控制平面（Kubernetes Master 节点）和计算平面（（Kubernetes Node 节点））。客户端（kubectl）通过和 Kubernetes Master 节点直接进行通信来控制 Kubernetes 集群。
+
+![Kubernetes 架构](https://github.com/findsec-cn/k100/raw/master/docs/k8s.jpg)
+
 ### 控制节点
+
+![Kubernetes Master](https://github.com/findsec-cn/k100/raw/master/docs/k8s-master.jpg)
 
 - kube-apiserver 对外暴露了Kubernetes API，所有对集群的操作都是通过这组API完成，包括集群资源信息的收集、应用的编排
 - kube-controller-manager 负责整个Kubernetes的管理工作，保证集群中各种资源的状态处于期望状态，当监控到集群中某个资源状态不正常时，管理控制器会触发对应的调度操作
@@ -16,6 +22,8 @@ Kubernetes(k8s)是Google开源由CNCF基金会管理的容器集群管理系统�
 - etcd etcd是一款用于共享配置和服务发现的高效KV存储系统，具有分布式、强一致性等特点。在Kubernetes环境中主要用于存储所有需要持久化的数据。
 
 ### 计算节点
+
+![Kubernetes Node](https://github.com/findsec-cn/k100/raw/master/docs/k8s-node.jpg)
 
 - kubelet kubelet是Node节点上最重要的核心组件，负责Kubernetes集群具体的计算任务，具体功能包括：通过与docker daemon的交互运行docker容器；配置Volume和网络；监控上报节点资源等
 - kube-proxy kube-proxy主要负责Service Endpoint到POD实例的请求转发及负载均衡的规则管理。
@@ -53,47 +61,35 @@ Pod 是 Kubernetes 项目中最基础的一个对象，下一张中我会重中�
 
 - 安装minikube
 
-```bash
-brew cask install minikube
-```
+    brew cask install minikube
 
 - 安装vm驱动
 
-```bash
-curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \\n&& sudo install -o root -g wheel -m 4755 docker-machine-driver-hyperkit /usr/local/bin/
-```
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \\n&& sudo install -o root -g wheel -m 4755 docker-machine-driver-hyperkit /usr/local/bin/
 
 - 启动 minikube(minikube会安装kubernetes需要的组件，这些组件的镜像存储在google的常客中，所有需要能够翻墙才能够安装成功)
 
-、、、bash
-minikube start --vm-driver=hyperkit --memory=4096 --insecure-registry="hub.xin.com" --registry-mirror="https://m9sl8pb5.mirror.aliyuncs.com" --docker-opt="bip=172.87.0.1/16"
+    minikube start --vm-driver=hyperkit --memory=4096 --insecure-registry="hub.xin.com" --registry-mirror="https://m9sl8pb5.mirror.aliyuncs.com" --docker-opt="bip=172.87.0.1/16"
 
-参数介绍:
---vm-driver 使用的虚拟机驱动
---memory 给虚拟机的内存大小
---cpu 给虚拟机的cpu核数，默认是2核
---insecure-registry 指定私有仓库地址
---registry-mirror 指定镜像缓存地址，加快镜像下载速度
---docker-opt 指定docker的启动参数，bip 指定 docker 网桥使用的网段
-、、、
+    参数介绍:
+    --vm-driver 使用的虚拟机驱动
+    --memory 给虚拟机的内存大小
+    --cpu 给虚拟机的cpu核数，默认是2核
+    --insecure-registry 指定私有仓库地址
+    --registry-mirror 指定镜像缓存地址，加快镜像下载速度
+    --docker-opt 指定docker的启动参数，bip 指定 docker 网桥使用的网段
 
 - 停止minikube
 
-、、、bash
-minikube stop
-、、、
+    minikube stop
 
 - 删除集群
 
-、、、bash
-minikube delete
-、、、
+    minikube delete
 
 - 登录虚拟机
 
-、、、bash
-minikube ssh
-、、、
+    minikube ssh
 
 #### Windows 安装 minikube
 
@@ -110,9 +106,7 @@ Windows 安装minikube，需要Windows系统支持Hyper-V，目前 Windows 10 En
 
 启动 minikube
 
-、、、bash
-minikube start --vm-driver=hyperv --memory=4096 --insecure-registry="hub.xin.com" --registry-mirror="https://m9sl8pb5.mirror.aliyuncs.com" --docker-opt="bip=172.87.0.1/16"
-、、、
+    minikube start --vm-driver=hyperv --memory=4096 --insecure-registry="hub.xin.com" --registry-mirror="https://m9sl8pb5.mirror.aliyuncs.com" --docker-opt="bip=172.87.0.1/16"
 
 ## 2.5 访问 Kubernetes
 
@@ -120,9 +114,7 @@ minikube start --vm-driver=hyperv --memory=4096 --insecure-registry="hub.xin.com
 
 #### 访问Dashboard
 
-、、、bash
-kubectl proxy
-、、、
+    kubectl proxy
 
 访问地址： http://localhost:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/overview?namespace=default
 
@@ -152,19 +144,15 @@ kubectl proxy
 
 MacOS 安装：
 
-、、、bash
-brew install kubernetes-cli
-、、、
+    brew install kubernetes-cli
 
 Windows 安装：
 
-、、、bash
-choco install kubernetes-cli
-cd C:\users\yourusername
-mkdir .kube
-cd .kube
-New-Item config -type file
-、、、
+    choco install kubernetes-cli
+    cd C:\users\yourusername
+    mkdir .kube
+    cd .kube
+    New-Item config -type file
 
 #### 配置 kubectl 客户端连接到 kubernetes 集群
 
@@ -176,41 +164,29 @@ kubectl配置文件 ~/.kube/config
 
 #### 获取集群信息
 
-、、、bash
-kubectl get nodes
-kubectl get pods
-kubectl get pods -n xxx
-、、、
+    kubectl get nodes
+    kubectl get pods
+    kubectl get pods -n xxx
 
 #### 使用命令行部署nginx服务
 
-、、、bash
-kubectl run nginx --image=nginx:1.15
-、、、
+    kubectl run nginx --image=nginx:1.15
 
 #### 为nginx创建服务
 
-、、、bash
-kubectl expose deployment nginx --port 80
-、、、
+    kubectl expose deployment nginx --port 80
 
 #### 获取部署列表
 
-、、、bash
-kubectl get svc
-、、、
+    kubectl get svc
 
 #### 启动工具容器进行访问测试
 
-、、、bash
-kubectl run -ti busybox --image=busybox --restart=Never -- sh
-、、、
+    kubectl run -ti busybox --image=busybox --restart=Never -- sh
 
 #### 测试能否访问服务
 
-、、、bash
-wget http://nginx
-、、、
+    wget http://nginx
 
 ## 2.6 小结
 
