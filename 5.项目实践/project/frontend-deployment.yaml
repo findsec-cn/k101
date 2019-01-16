@@ -22,6 +22,10 @@ spec:
               mountPath: "/etc/nginx/conf.d"
             - name: "tls-certs"
               mountPath: "/etc/tls"
+          resources:
+            limits:
+              cpu: 1
+              memory: "1Gi"
       volumes:
         - name: "tls-certs"
           secret:
