@@ -49,6 +49,9 @@ spec:
               mountPath: "/etc/nginx/conf.d"
         - name: hello
           image: hub.xin.com/example/hello:v2
+          env:
+            - name: UWSGI_CHEAPER
+              value: "5"
           ports:
             - name: tcp
               containerPort: 8000

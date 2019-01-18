@@ -23,5 +23,5 @@
 ## 适宜人群
 
 - 了解 Docker，希望能进入 Kubernetes 的各领域工程师
-- 正在或即将在生产环境使用 Kubernetes 的后端开发工程师
-- 需要维护在公司落地 Kubernetes 的运维工程师
+- 正在或即将在生产环境使用 Kubernetes 的开发工程师
+- 需要维护 Kubernetes 的运维工程师
