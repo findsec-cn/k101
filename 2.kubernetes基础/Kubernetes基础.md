@@ -4,11 +4,11 @@
 
 ### Kubernetes 是什么
 
-Kubernetes(k8s)是Google开源由CNCF基金会管理的容器集群管理系统。为容器化的应用提供部署运行、资源调度、服务发现和动态伸缩等一系列完整功能。Kubernetes 被称为现在化的数据中心操作系统，大家都知道，操作系统是用来管理硬件资源比如 CPU、内存、磁盘、输入输出设备等资源的，并完成对这些资源的调度。而 Kubernetes 是将数据中心里的物理节点作为管理对象，并对物理节点上的资源调度进行调度完成编排任务。
+Kubernetes(k8s)是Google开源由CNCF基金会管理的容器集群管理系统。为容器化的应用提供部署运行、资源调度、服务发现和动态伸缩等一系列完整功能。Kubernetes 被称为现在化的数据中心操作系统，大家都知道，操作系统是用来管理硬件资源比如 CPU、内存、磁盘、输入输出设备等资源的，并完成对这些资源的调度。而 Kubernetes 是将数据中心里的物理节点作为管理对象，并对物理节点上的资源调度进行调度完成编排任务。操作系统的另一个特性就是容易扩展，比如，当 GPU 这种硬件出现后，操作系统应该很容去管理这种资源，Kubernetes 作为数据中心操作系统同样也有这样的特性，它也非常容易扩展。
 
 ## 2.2 Kubernetes 架构
 
-Kubernetes 的架构总的来讲分为两个平面，即控制平面和计算平面，控制平面又称为 Master 节点，计算平面又称为Node 节点。Master 节点是整个集群的大脑，负责控制、调度集群资源，Node 节点负责运行工作负载。Kubernetes 客户端（kubectl）通过和 Master 节点直接进行通信来控制 Kubernetes 集群。
+Kubernetes 的架构从宏观层面的来讲分为两个平面，即控制平面和计算平面，控制平面又称为 Master 节点，Master 节点是整个集群的大脑，负责控制、调度集群资源；计算平面又称为 Node 节点，Node 节点负责运行工作负载，是 Master 节点调度的对象。kubectl 作为 Kubernetes 客户端通过和 Master 节点直接进行通信来控制 Kubernetes 集群。
 
 ![Kubernetes 架构](https://github.com/findsec-cn/k100/raw/master/docs/k8s.jpg)
 
@@ -16,16 +16,16 @@ Kubernetes 的架构总的来讲分为两个平面，即控制平面和计算平
 
 ![Kubernetes Master](https://github.com/findsec-cn/k100/raw/master/docs/k8s-master.jpg)
 
-- kube-apiserver 对外暴露 Kubernetes API，所有对集群的操作都是通过这组API完成，包括kubelet 上报集群资源使用情况、通过客户端下达应用编排命令。
-- kube-controller-manager 负责整个Kubernetes的管理工作，保证集群中各种资源处于期望状态，当监控到集群中某个资源状态与期望状态不符时，controller-manager 会触发对应的调度操作。
+- kube-apiserver 对外暴露 Kubernetes API，所有对集群的操作都是通过这组API完成，包括客户端下达应用编排命令给 Kubernetes 集群；kubelet 上报集群资源使用情况；以及各个组件之间的交互都是通过这套 API 完成的。
+- kube-controller-manager 负责整个 Kubernetes 的管理工作，保证集群中各种资源处于期望状态，当监控到集群中某个资源状态与期望状态不符时，controller-manager 会触发调度操作。
 - kube-scheduler 调度器负责 Kubernetes 集群的具体调度工作，接收来自于controller-manager 触发的调度操作请求，然后根据请求规格、调度约束、整体资源情况进行调度计算，最后将任务发送到目标节点由的kubelet组件执行。
-- etcd etcd是一个高效KV存储系统。在Kubernetes环境中主要用于存储所有需要持久化的数据。
+- etcd 是一个高效KV存储系统。在Kubernetes环境中主要用于存储所有需要持久化的数据。
 
 ### 计算节点
 
 ![Kubernetes Node](https://github.com/findsec-cn/k100/raw/master/docs/k8s-node.jpg)
 
-- kubelet 是Node节点上核心组件，负责与 docker daemon 进行交互运行 docker 容器；配置网络和数据卷；监控并上报节点资源使用情况。
+- kubelet 是 Node 节点上核心组件，负责与 docker daemon 进行交互运行 docker 容器；配置网络和数据卷；监控并上报节点资源使用情况。
 - kube-proxy 主要负责 Service Endpoint 到 POD 实例的请求转发及负载均衡的规则管理。
 
 以上这些组件的运行原理在进阶篇中会详细讲述。
@@ -44,7 +44,7 @@ Pod 是 Kubernetes 项目中最基础的一个对象，下一章中我会重中�
 
 所以，Kubernetes 项目的做法是给 Pod 绑定一个 Service 服务，而 Service 服务声明的 IP 地址等信息是“终生不变”的。这个Service 服务的主要作用，就是作为 Pod 的代理入口，从而代替 Pod 对外暴露一个固定的网络地址。
 
-除了 Pod、Service 这些基本资源外，Kubernetes 还为我们提供了 Deployment、StatefulSet、Job 等扩展资源，有了这些资源我们就可以轻松的编排我们的服务了，通过这些资源，Kubernetes 为我们提供了应用的水平扩展、滚动升级、自动扩缩容能力，为服务提供了负责均衡、服务监控、服务发现能力。通过这些高级功能 Kubernetes 逐渐成为了容器编排领域的翘楚。
+除了 Pod、Service 这些基本资源外，Kubernetes 还为我们提供了 Deployment、StatefulSet、Job 等扩展资源，有了这些资源我们就可以轻松的编排我们的服务了，通过这些资源，Kubernetes 为我们提供了应用的水平扩展、滚动升级、自动扩缩容能力，为服务提供了负责均衡、服务监控、服务发现能力。通过这些高级功能以及其灵活的扩展能力使 Kubernetes 逐渐成为了容器编排领域的翘楚。
 
 ## 2.4 Kubernetes 集群搭建
 
@@ -79,7 +79,7 @@ Pod 是 Kubernetes 项目中最基础的一个对象，下一章中我会重中�
     --registry-mirror 指定镜像缓存地址，加快镜像下载速度
     --docker-opt 指定docker的启动参数，bip 指定 docker 网桥使用的网段
 
-- 停止minikube
+- 停止 minikube
 
     minikube stop
 
@@ -136,7 +136,7 @@ Windows 安装minikube，需要Windows系统支持Hyper-V，目前 Windows 10 En
 ##### 配置
 
 - configmap 定义应用的配置文件，在应用容器启动时挂载到容器中
-- secret 同configmap，定义某些敏感的、需要加密的配置文件，在应用容器启动时挂载到容器中
+- secret 同 configmap，定义某些敏感的、需要加密的配置文件，在应用容器启动时挂载到容器中
 
 ### kubectl
 
