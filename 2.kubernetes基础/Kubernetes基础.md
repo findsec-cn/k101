@@ -69,7 +69,7 @@ Pod 是 Kubernetes 项目中最基础的一个对象，下一章中我会重中�
 
 - 启动 minikube(minikube会安装kubernetes需要的组件，这些组件的镜像存储在google的常客中，所有需要能够翻墙才能够安装成功)
 
-    minikube start --vm-driver=hyperkit --memory=4096 --insecure-registry="hub.xin.com" --registry-mirror="https://m9sl8pb5.mirror.aliyuncs.com" --docker-opt="bip=172.87.0.1/16"
+    minikube start --vm-driver=hyperkit --memory=4096 --insecure-registry="hub.example.com" --registry-mirror="https://m9sl8pb5.mirror.aliyuncs.com" --docker-opt="bip=172.87.0.1/16"
 
     参数介绍:
     --vm-driver 使用的虚拟机驱动
@@ -104,9 +104,15 @@ Windows 安装minikube，需要Windows系统支持Hyper-V，目前 Windows 10 En
 
 下载 minikube-installer.exe （https://github.com/kubernetes/minikube/releases/latest）并进行安装。
 
+启动前准备(重要)
+
+- 配置 MINIKUBE_HOME 环境变量及创建目录
+- 在 Hyper-V 中为minikube添加虚拟交换机
+- 用 chocolatey 安装 OpenSSH（choco install openssh）
+
 启动 minikube
 
-    minikube start --vm-driver=hyperv --memory=4096 --insecure-registry="hub.xin.com" --registry-mirror="https://m9sl8pb5.mirror.aliyuncs.com" --docker-opt="bip=172.87.0.1/16"
+    minikube start --vm-driver=hyperv --hyperv-virtual-switch=minikube --memory=4096 --insecure-registry="hub.example.com" --registry-mirror="https://m9sl8pb5.mirror.aliyuncs.com" --docker-opt="bip=172.87.0.1/16"
 
 ## 2.5 访问 Kubernetes
 
