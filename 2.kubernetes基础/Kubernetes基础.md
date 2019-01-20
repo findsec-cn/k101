@@ -120,7 +120,9 @@ Windows 安装minikube，需要Windows系统支持Hyper-V，目前 Windows 10 En
 
 #### 访问Dashboard
 
-    kubectl proxy
+最新版本的 minikube 默认没有安装 Dashboard，执行如下命令 minikube 自动帮我们部署 Dashboard 并启动代理。
+
+    minikube dashboard
 
 访问地址： http://localhost:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/overview?namespace=default
 
