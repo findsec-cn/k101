@@ -50,7 +50,7 @@ spec:
             - name: "uwsgi-sock"
               mountPath: "/tmp"
         - name: hello
-          image: hub.xin.com/example/hello:v1
+          image: findsec/hello:v1
           ports:
             - name: http-stats
               containerPort: 9191

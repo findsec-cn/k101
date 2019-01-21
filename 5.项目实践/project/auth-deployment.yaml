@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: "ist0ne/example-auth:1.0.0"
+          image: "findsec/example-auth:1.0.0"
           ports:
             - name: http
               containerPort: 80
