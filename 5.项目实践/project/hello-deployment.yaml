@@ -27,7 +27,7 @@ spec:
               path: /healthz
               port: 81
               scheme: HTTP
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
             periodSeconds: 15
             timeoutSeconds: 5
           readinessProbe:
@@ -35,5 +35,5 @@ spec:
               path: /readiness
               port: 81
               scheme: HTTP
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
+            initialDelaySeconds: 10
+            timeoutSeconds: 5

@@ -24,7 +24,7 @@ spec:
               mountPath: "/etc/tls"
           resources:
             limits:
-              cpu: 1
+              cpu: "0.5"
               memory: "1Gi"
       volumes:
         - name: "tls-certs"
