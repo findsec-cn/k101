@@ -10,11 +10,11 @@ Kubernetes(k8s)是Google开源由CNCF基金会管理的容器集群管理系统�
 
 Kubernetes 的架构从宏观层面的来讲分为两个平面，即控制平面和计算平面，控制平面又称为 Master 节点，Master 节点是整个集群的大脑，负责控制、调度集群资源；计算平面又称为 Node 节点，Node 节点负责运行工作负载，是 Master 节点调度的对象。kubectl 作为 Kubernetes 客户端通过和 Master 节点直接进行通信来控制 Kubernetes 集群。
 
-![Kubernetes 架构](https://github.com/findsec-cn/k100/raw/master/docs/k8s.jpg)
+![Kubernetes 架构](https://github.com/findsec-cn/k101/raw/master/docs/k8s.jpg)
 
 ### 控制节点
 
-![Kubernetes Master](https://github.com/findsec-cn/k100/raw/master/docs/k8s-master.jpg)
+![Kubernetes Master](https://github.com/findsec-cn/k101/raw/master/docs/k8s-master.jpg)
 
 - kube-apiserver 对外暴露 Kubernetes API，所有对集群的操作都是通过这组API完成，包括客户端下达应用编排命令给 Kubernetes 集群；kubelet 上报集群资源使用情况；以及各个组件之间的交互都是通过这套 API 完成的。
 - kube-controller-manager 负责整个 Kubernetes 的管理工作，保证集群中各种资源处于期望状态，当监控到集群中某个资源状态与期望状态不符时，controller-manager 会触发调度操作。
@@ -23,7 +23,7 @@ Kubernetes 的架构从宏观层面的来讲分为两个平面，即控制平面
 
 ### 计算节点
 
-![Kubernetes Node](https://github.com/findsec-cn/k100/raw/master/docs/k8s-node.jpg)
+![Kubernetes Node](https://github.com/findsec-cn/k101/raw/master/docs/k8s-node.jpg)
 
 - kubelet 是 Node 节点上核心组件，负责与 docker daemon 进行交互运行 docker 容器；配置网络和数据卷；监控并上报节点资源使用情况。
 - kube-proxy 主要负责 Service Endpoint 到 POD 实例的请求转发及负载均衡的规则管理。
