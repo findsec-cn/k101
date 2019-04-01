@@ -12,6 +12,10 @@
 
 ![QQ群](https://github.com/findsec-cn/k100/raw/master/docs/qq.jpg)
 
+也可以关注我们的微信公众号：
+
+![微信公众号](https://github.com/findsec-cn/k100/raw/master/docs/wechat.jpg)
+
 ## 你会学到什么？
 
 - Docker 镜像打包并运行容器
